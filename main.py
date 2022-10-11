@@ -29,6 +29,6 @@ if __name__ == "__main__":
         inputs=[
             gr.Textbox(value="Your Prompt")
         ],
-        outputs="text",
+        outputs=gr.Image(),
     )
     demo.launch()
