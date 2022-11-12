@@ -26,13 +26,13 @@ Verify the library versions. We have tested transformers 4.21/4.22/4.23, diffuse
 Build the AIT modules by running `compile.py`. You must first register in Hugging Face Hub to obtain an access token for the Stable Diffusion weights. See [user access tokens](https://huggingface.co/docs/hub/security-tokens) for more info. Your access tokens are listed in your [Hugging Face account settings](https://huggingface.co/settings/tokens).
 
 ```
-python3 examples/05_stable_diffusion/compile.py --token ACCESS_TOKEN
+python compile.py --token ACCESS_TOKEN
 ```
 It generates three folders: `./tmp/CLIPTextModel`, `./tmp/UNet2DConditionModel`, `./tmp/AutoencoderKL`. In each folder, there is a `test.so` file which is the generated AIT module for the model.
 
 Compile the img2img models:
 ```
-python3 examples/05_stable_diffusion/compile.py --img2img True --token ACCESS_TOKEN
+python compile.py --img2img True --token ACCESS_TOKEN
 ```
 
 #### Multi-GPU profiling
@@ -44,21 +44,27 @@ To enable multiple GPUs for profiling, use the environment variable `CUDA_VISIBL
 This step is optional. You can run `benchmark.py` with the access token to initialize the weights and benchmark.
 
 ```
-python3 examples/05_stable_diffusion/benchmark.py --token ACCESS_TOKEN
+python benchmark.py --token ACCESS_TOKEN
 ```
 
 ### Run Models
 
+Gradio demo:
+
+```
+python main.py --token ACCESS_TOKEN
+```
+
 Run AIT models with an example image:
 
 ```
-python3 examples/05_stable_diffusion/demo.py --token ACCESS_TOKEN
+python demo.py --token ACCESS_TOKEN
 ```
 
 Img2img demo:
 
 ```
-python3 examples/05_stable_diffusion/demo_img2img.py --token ACCESS_TOKEN
+python demo_img2img.py --token ACCESS_TOKEN
 ```
 
 Check the resulted image: `example_ait.png`
@@ -66,15 +72,15 @@ Check the resulted image: `example_ait.png`
 
 ### Sample outputs
 
-Command: `python3 examples/05_stable_diffusion/demo.py --token hf_xxx --prompt "Mountain Rainier in van Gogh's world"`
+Command: `python demo.py --token hf_xxx --prompt "Mountain Rainier in van Gogh's world"`
 
 ![sample](https://raw.githubusercontent.com/AITemplate/webdata/main/imgs/example_ait_rainier.png)
 
-Command: `python3 examples/05_stable_diffusion/demo.py --token hf_xxx --prompt "Sitting in a tea house in Japan with Mount Fuji in the background, sunset professional portrait, Nikon 85mm f/1.4G"`
+Command: `python demo.py --token hf_xxx --prompt "Sitting in a tea house in Japan with Mount Fuji in the background, sunset professional portrait, Nikon 85mm f/1.4G"`
 
 ![sample](https://raw.githubusercontent.com/AITemplate/webdata/main/imgs/example_ait_fuji.png)
 
-Command: `python3 examples/05_stable_diffusion/demo.py --token hf_xxx --prompt "A lot of wild flowers with North Cascade Mountain in background, sunset professional photo, Unreal Engine"`
+Command: `python demo.py --token hf_xxx --prompt "A lot of wild flowers with North Cascade Mountain in background, sunset professional photo, Unreal Engine"`
 
 ![sample](https://raw.githubusercontent.com/AITemplate/webdata/main/imgs/example_ait_cascade2.png)
 
