@@ -1,4 +1,5 @@
 import argparse
+import gc
 
 import gradio as gr
 import torch
@@ -6,7 +7,9 @@ import torch
 from pipeline_stable_diffusion_ait import StableDiffusionAITPipeline
 
 
-def run(prompt, width=512, height=512, num_inference_steps=50, guidance_scale=7.5):
+def run(prompt, width, height, num_inference_steps=50, guidance_scale=7.5):
+    torch.cuda.empty_cache()
+    gc.collect()
     with torch.autocast("cuda"):
         image = pipe(prompt, height=int(height), width=int(width), num_inference_steps=num_inference_steps,
                      guidance_scale=guidance_scale).images[0]
@@ -27,7 +30,9 @@ if __name__ == "__main__":
     demo = gr.Interface(
         fn=run,
         inputs=[
-            gr.Textbox(value="Your Prompt")
+            gr.Textbox(),
+            gr.Slider(step=64, minimum=512, maximum=1024, label="Width", value=512),
+            gr.Slider(step=64, minimum=512, maximum=1024, label="Height", value=512)
         ],
         outputs=gr.Image(),
     )
